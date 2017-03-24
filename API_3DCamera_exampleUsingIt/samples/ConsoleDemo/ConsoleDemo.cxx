@@ -268,16 +268,12 @@ void onNewDepthSample(DepthNode node, DepthNode::NewSampleReceivedData data)
 	int cx = w / 2;
 	int cy = h / 2;
 
-	//printf("Resolution: W %d H %d \n", w, h);
-
 	Vertex p3DPoints[4];
 
 	//p3DPoints[0] = data.vertices[(cy - h / 4)*w + cx - w / 4];
 	//p3DPoints[1] = data.vertices[(cy - h / 4)*w + cx + w / 4];
 	//p3DPoints[2] = data.vertices[(cy + h / 4)*w + cx + w / 4];
 	//p3DPoints[3] = data.vertices[(cy + h / 4)*w + cx - w / 4];	
-	
-	int XYZ[3 * 76800];
 
 	send_all(ClientSock, data.depthMap, 76800 * sizeof(int16_t));
 	std::cout << data.depthMap.size() << std::endl;
@@ -291,8 +287,7 @@ void onNewDepthSample(DepthNode node, DepthNode::NewSampleReceivedData data)
 
     // Quit the main loop after 200 depth frames received
 	//if (g_dFrames == 200) {
-	//	g_context.quit();		
-	//	
+	//	g_context.quit();
 	//}
 }
 
