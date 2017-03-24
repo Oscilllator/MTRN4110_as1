@@ -9,6 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TCP_client", "TCP_client\TC
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ArduinoCode", "ArduinoCode\ArduinoCode.vcxproj", "{402A34BC-4519-4E82-A005-61FDC97F4AC0}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3D_Camera", "API_3DCamera_exampleUsingIt\samples\ConsoleDemo\ConsoleDemo.vcxproj", "{5C3B105F-C218-430D-846C-0FE4E026AB43}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
