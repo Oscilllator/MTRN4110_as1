@@ -6,9 +6,8 @@
 #include <string>
 #include "Serial.h"
 
-
-
 #define MY_MESSAGE_NOTIFICATION      1048 //Custom notification message
+
 HWND hwnd;
 SOCKET ss; //Server
 SOCKET ClientSock; //Client ID on Server Side
@@ -17,8 +16,6 @@ SOCKET ClientSock; //Client ID on Server Side
 
 char recvbuf[DEFAULT_BUFLEN];
 int recvbuflen = DEFAULT_BUFLEN;
-
-
 
 void CloseConnection(SOCKET ks) {
 	if (ks) {
