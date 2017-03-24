@@ -250,10 +250,7 @@ int main() {
 	int counter = 0;
 	bool state = 1; 
 
-
 	while (1) {
-		std::thread Send(sender);
-
 		std::cout << "Running Server Loop" << std::endl;
 		
 		recv(ClientSock, recvbuf, sizeof(recvbuf), 0);
