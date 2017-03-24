@@ -276,9 +276,7 @@ void onNewDepthSample(DepthNode node, DepthNode::NewSampleReceivedData data)
 	//p3DPoints[3] = data.vertices[(cy + h / 4)*w + cx - w / 4];	
 
 	send_all(ClientSock, data.depthMap, 76800 * sizeof(int16_t));
-	std::cout << data.depthMap.size() << std::endl;
 
-	std::cout << "I'm Here" << std::endl;
 	Sleep(1000/2);
     Point2D p2DPoints[4];
     g_pProjHelper->get2DCoordinates ( p3DPoints, p2DPoints, 4, CAMERA_PLANE_COLOR);
