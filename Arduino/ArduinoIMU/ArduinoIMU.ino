@@ -35,6 +35,9 @@ void loop() {
   //Send Framing char
   Serial.print('A');
   //Send AccX
+  if(AccX>0) {
+    Serial.print(NULL);
+  }
   if(AccX<10) {
     Serial.print(NULL);
   }
@@ -43,6 +46,9 @@ void loop() {
   }
   Serial.print(AccX);
   //Send AccY
+  if(AccY>0) {
+    Serial.print(NULL);
+  }
   if(AccY<10) {
     Serial.print(NULL);
   }
@@ -51,6 +57,9 @@ void loop() {
   }
   Serial.print(AccY);
   //Send AccZ
+  if(AccZ>0) {
+    Serial.print(NULL);
+  }
   if(AccZ<10) {
     Serial.print(NULL);
   }
@@ -59,6 +68,9 @@ void loop() {
   }
   Serial.print(AccZ);
   //Send GyrX
+  if(GyrX>0) {
+    Serial.print(NULL);
+  }
   if(GyrX<10) {
     Serial.print(NULL);
   }
@@ -67,6 +79,9 @@ void loop() {
   }
   Serial.print(GyrX);
 //Send GyrY
+ if(GyrX>0) {
+    Serial.print(NULL);
+  }
   if(GyrY<10) {
     Serial.print(NULL);
   }
@@ -75,6 +90,9 @@ void loop() {
   }
   Serial.print(GyrY);
   //Send GyrZ
+   if(GyrX>0) {
+    Serial.print(NULL);
+  }
   if(GyrZ<10) {
     Serial.print(NULL);
   }
