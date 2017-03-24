@@ -28,7 +28,6 @@
 #include <exception>
 #include <fstream>
 #include <iostream>
-#include "engine.h"
 
 #include <DepthSense.hxx>
 
