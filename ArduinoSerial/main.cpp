@@ -6,7 +6,7 @@
 #include <string>
 #include "Serial.h"
 
-//This is a test
+
 
 #define MY_MESSAGE_NOTIFICATION      1048 //Custom notification message
 HWND hwnd;
@@ -102,7 +102,6 @@ int main() {
 		Sleep(10000);
 		return 1;
 	}
-	
 	std::cout << "Press any key to start the Server:" << std::endl;
 	if (_getch()) {
 		if (ListenOnPort(15000) != 0) { //CHOSE THE SERVER PORT HERE!
@@ -120,12 +119,25 @@ int main() {
 	if (ClientSock == INVALID_SOCKET) {
 		std::cout << "Bad Socket" << std::endl;
 	}
-	
-	char incomingData[25] = "000000000000000000000000";
-	while (1) {
-		SR.ReadData(incomingData, 24);
-		send(ClientSock, incomingData, 24, 0);
 
+	char incomingData[13] = "A000B000C000";
+	while (1) {
+		
+		SR.ReadData(incomingData, 12);
+
+		while (incomingData[0] != 'A') {
+			//char shift 
+			char holder = incomingData[0];
+			for (int i = 0; i < 11; i++) {
+				incomingData[i] = incomingData[i + 1];
+			}
+			incomingData[11] = holder;
+
+		}
+
+		SR.ReadData(incomingData, 12);
+		send(ClientSock, incomingData, 12, 0);
+		
 		std::cout << incomingData << std::endl;
 		Sleep(1000);
 	}
