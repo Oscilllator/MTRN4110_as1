@@ -15,9 +15,12 @@ function r = ExtractOOIs(ranges,intensities)
 
     %find all clusters of points:
     for i = 2:length(ranges) - 1
-
-        if pdist([X(i), Y(i); X(i-1), Y(i-1)]) > maxPoleDia
-            if pdist([X(i), Y(i); X(i+1), Y(i+1)]) > maxPoleDia
+        
+        %turns out using pdist is literally 9.52 times slower than
+        %comparing squares. makes the whole program run about 7 times
+        %faster
+        if (X(i) - X(i-1))^2 + (Y(i) - Y(i-1))^2 > maxPoleDia^2%pdist([X(i), Y(i); X(i-1), Y(i-1)]) > maxPoleDia
+            if (X(i) - X(i+1))^2 + (Y(i) - Y(i+1))^2 > maxPoleDia^2
                 clusterEndPts = [clusterEndPts, i - 1, i + 1];
                 i = i + 1;
             else 
@@ -46,11 +49,10 @@ function r = ExtractOOIs(ranges,intensities)
                            X(clusterEndPts(i+1)), Y(clusterEndPts(i+1))])];
 %         plot(X(clusterEndPts(i):clusterEndPts(i+1)), Y(clusterEndPts(i):clusterEndPts(i+1)), 'Color', hsv2rgb(lineColor), 'Marker', '+')%, 'LineStyle', 'none'
 %         lineColor(1) = mod(lineColor(1) + pi, 1);
-        axis([-10,10,0,20]);
+%         axis([-10,10,0,20]);
     %     pause(0.1)
     end
-    plot(X, Y, 'k.')
-    PlotOOIs(r);
-    plot(X(brightPts), Y(brightPts), 'r.')
+%     plot(X, Y, 'k.')
+%     plot(X(brightPts), Y(brightPts), 'r.')
 return;
 end
