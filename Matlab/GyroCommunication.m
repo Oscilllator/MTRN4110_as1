@@ -3,11 +3,11 @@
 t = tcpip('127.0.0.1', 15000); 
 
 % Set size of receiving buffer, if needed. 
-set(t, 'InputBufferSize', 25); 
+set(t, 'InputBufferSize', 24); 
 
 % Open connection to the server. 
 fopen(t); 
-yawVS3d = 1;
+yawVS3d = 0;
 Yaw = 0;
 Xaxis=0;
 Yaxis=0;
@@ -27,7 +27,7 @@ DataReceived = fscanf(t)
 %the calc bits
 dt = cputime-dt;
 if yawVS3d ==0
-   Value= str2double(DataReceived(14:17))
+   Value= str2double(DataReceived(13:16))
    Yaw = Yaw+dt*Value/1000; %each ount i 0.01deg/s
    if Yaw > 360
        Yaw = Yaw -360;
@@ -43,7 +43,7 @@ if yawVS3d ==0
 
 end
 if yawVS3d ==1
-   ValueX= str2double(DataReceived(14:17));
+   ValueX= str2double(DataReceived(end-8:end-6));
    Xaxis = Xaxis+dt*ValueX/1000; %each ount i 0.01deg/s
    if Xaxis > 360
        Xaxis = Xaxis -360;
@@ -51,7 +51,7 @@ if yawVS3d ==1
    if Xaxis < 0 
        Xaxis = Xaxis +360;
    end
-   ValueY= str2double(DataReceived(18:21));
+   ValueY= str2double(DataReceived(end-5:end-3));
       Yaxis = Yaxis+dt*ValueY/1000; %each ount i 0.01deg/s
    if Yaxis > 360
        Yaxis = Yaxis -360;
@@ -59,7 +59,7 @@ if yawVS3d ==1
    if Yaxis < 0 
        Yaxis = Yaxis +360;
    end
-   ValueZ= str2double(DataReceived(22:25));
+   ValueZ= str2double(DataReceived(end-2:end));
    Zaxis = Zaxis+dt*ValueZ/1000; %each ount i 0.01deg/s
    if Zaxis > 360
        Zaxis = Zaxis -360;
@@ -70,10 +70,10 @@ if yawVS3d ==1
    Xaxis
    Yaxis
    Zaxis
-   dt = toc
+   
    addpoints(h,dt,Xaxis);
-   addpoints(g,dt,Yaxis);
-   addpoints(k,dt,Zaxis);
+   addpoints(h,dt,Yaxis);
+   addpoints(h,dt,Zaxis);
    drawnow
 %PLOT THIS SOME HOW 
 
