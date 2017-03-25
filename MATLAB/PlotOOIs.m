@@ -1,4 +1,4 @@
-function PlotOOIs(OOIs)
+function PlotOOIs(OOIs, guiHandle)
     if OOIs.N<1, return ; end;
     
     theta = 0:0.1:2*pi;
@@ -6,7 +6,7 @@ function PlotOOIs(OOIs)
     for i = 1:OOIs.N
         circX = OOIs.Centers.x(i) + OOIs.Sizes(i)*cos(theta);
         circY = OOIs.Centers.y(i) + OOIs.Sizes(i)*sin(theta);
-        plot(circX, circY, 'r');
+        set(guiHandle.handle1, 'xdata', circX, 'ydata', circY);
     end
     
 return;
