@@ -19,11 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="EthernetClient.cpp" />
     <ClCompile Include="TCP-Client.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="EthernetClient.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{36E0CC73-1167-4494-9718-4F0AFD8D03F8}</ProjectGuid>
