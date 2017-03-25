@@ -52,14 +52,16 @@ int string2int(char stringNumber[]) {
 
 int main() {
 	char* IP = "127.0.0.1";
-	char* port = "15000";
+	char* portsend = "15005";
+	char* portrecv = "15000";
 	
-	EthernetClient client(IP, port);
-	
-	client.ConnectToServer();
-	
+	//EthernetClient clients(IP, portsend);
+	EthernetClient clientr(IP, portrecv);
+	//clients.ConnectToServer();
+	clientr.ConnectToServer();
+
 	char* sender = new char[1];
-	//std::cout << "Set Speed in Hertz" << std::endl;
+	std::cout << "Set Speed in Hertz" << std::endl;
 	
 	//std::cin >> sender;
 	//int freq = string2int(sender);
@@ -72,37 +74,39 @@ int main() {
 	int freq = 5;
 	while (1) {
 		tend = time(0);
+		/*
 		if (difftime(tend, tstart) == 10) {
 			freq = 10;
-			client.SendData("10", 2);
+			clients.SendData("10", 2);
 		}
 		if (difftime(tend, tstart) == 20) {
 			freq = 20;
-			client.SendData("10", 2);
+			clients.SendData("10", 2);
 		}
 		if (GetKeyState(27) != 0) {
-			client.SendData("0", 1);
+			clients.SendData("0", 1);
 			break;
 		}
 		else {
 			//std::cin >> freq;
 		}
-
+		*/
 		Sleep(1000/freq);
 		
-		client.ReceiveData();
+		clientr.ReceiveData();
 		std::cout << "Received Measurements: " << std::endl;
 
 		
 
 		for (int i = 0; i < 20; i = i + 2) {
-			std::cout << static_cast<unsigned short int>(client.RxData[i]) << '\t';
+			std::cout << static_cast<unsigned short int>(clientr.RxData[i]) << '\t';
 		}
 
 		std::cout << '\n';
 	}
 	
-	client.CloseConnection();
+	//clients.CloseConnection();
+	clientr.CloseConnection();
 	return 0; 
 
 }

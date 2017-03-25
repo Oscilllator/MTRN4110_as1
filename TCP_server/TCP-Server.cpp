@@ -13,8 +13,9 @@
 HWND hwnd;
 //using namespace std;
 SOCKET ss; //Server
+SOCKET sr;
 SOCKET ClientSock; //Client ID on Server Side
-
+SOCKET ClientRecv;
 #define DEFAULT_BUFLEN 512
 
 char recvbuf[DEFAULT_BUFLEN];
@@ -67,9 +68,9 @@ bool ConnectToHost(int PortNo, char* IPAddress) {
 	//now we should be connected;
 }
 */
-int ListenOnPort(int portno)
+int ListenOnPort(int portno, SOCKET s, bool Blocking)
 {
-	
+
 	WSADATA w;
 	int error = WSAStartup(0x0202, &w);   // Fill in WSA info
 
@@ -83,7 +84,7 @@ int ListenOnPort(int portno)
 	if (w.wVersion != 0x0202) //Wrong Winsock version?
 	{
 		WSACleanup();
-		std::cout << "wrong version of winsock" << std::endl; 
+		std::cout << "wrong version of winsock" << std::endl;
 		return false;
 	}
 
@@ -98,18 +99,19 @@ int ListenOnPort(int portno)
 									 //specific IP, specify that //instead.
 	addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	ss = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); // Create socket
+	s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP); // Create socket
 
-	if (ss == INVALID_SOCKET)
+	if (s == INVALID_SOCKET)
 	{
-		std::cout << "invalid socket" <<std::endl; 
+		std::cout << "invalid socket" << std::endl;
 		return false; //Don't continue if we couldn't create a //socket!!
 	}
-	//u_long iMode = 1;
-	//ioctlsocket(ss, FIONBIO, &iMode);
+	if (Blocking == 0) {
+	u_long iMode = 1;
+	ioctlsocket(s, FIONBIO, &iMode);
+	}
 
-
-	if (bind(ss, (LPSOCKADDR)&addr, sizeof(addr)) == SOCKET_ERROR)
+	if (bind(s, (LPSOCKADDR)&addr, sizeof(addr)) == SOCKET_ERROR)
 	{
 		//We couldn't bind (this will happen if you try to bind to the same  
 		//socket more than once)
@@ -122,16 +124,23 @@ int ListenOnPort(int portno)
 	//integer value equal to or lesser than SOMAXCONN instead for custom 
 	//purposes). The function will not //return until a connection request is 
 	//made
-	return listen(ss, SOMAXCONN);
+	return listen(s, SOMAXCONN);
 	
 	
 	//Don't forget to clean up with CloseConnection()!
 }
 
-void acceptThread() {
+void acceptThreadS() {
 	//CloseConnection(ClientSock);
 	ClientSock = INVALID_SOCKET;
 	ClientSock = accept(ss, NULL, NULL);
+}
+
+
+void acceptThreadR() {
+	//CloseConnection(ClientSock);
+	ClientRecv = INVALID_SOCKET;
+	ClientRecv = accept(sr, NULL, NULL);
 }
 
 
@@ -215,33 +224,54 @@ void sendingLoop(int freq) {
 int main() {
 	std::cout << "Press any key to start the Server:" << std::endl;
 	if (_getch()) {
-		if (ListenOnPort(15000) != 0) {
+		if (ListenOnPort(15000, ss, 1) != 0) {
 			std::cout << "listen on port failed" << std::endl;
 		}
 		else {
 			std::cout << "Server started" << std::endl;
 		}
+		/*
+		if (ListenOnPort(15005, sr, 1) != 0) {
+			std::cout << "listen on port failed" << std::endl;
+		}
+		else {
+			std::cout << "Server started" << std::endl;
+		}
+		*/
 	}
 
-	std::thread Accept(acceptThread);
+	std::thread AcceptS(acceptThreadS);
+	//std::thread AcceptR(acceptThreadR);
 
-	Accept.join();
+	AcceptS.join();
+
+	//AcceptR.join();
 	std::cout<< "connection joined" << std::endl;
-	
+	/*
 	ClientSock = INVALID_SOCKET;
 	while (accept(ss, NULL, NULL) == INVALID_SOCKET) {
 		ClientSock == accept(ss, NULL, NULL);
 	}
-	
-	if (ClientSock == INVALID_SOCKET) {
-		std::cout << "Bad Socket" << std::endl;
+	std::cout << "ss" << std::endl;
+	while (accept(sr, NULL, NULL) == INVALID_SOCKET) {
+		ClientSock == accept(ss, NULL, NULL);
 	}
-
+	*/
+	//accept(sr, NULL, NULL);
+	/*
+	std::cout << "ss" << std::endl;
+	if (ClientSock == INVALID_SOCKET) {
+		std::cout << "Bad Socket Send" << std::endl;
+	}
+	if (ClientRecv == INVALID_SOCKET) {
+		std::cout << "Bad Socket Recv" << std::endl;
+	}
+	*/
 	
 	//if (recv(ClientSock, recvbuf, sizeof(recvbuf), 0) != 0) {
 	//	std::cout << "received frequency: " << recvbuf << std::endl;
 	//}
-	Sleep(100);
+	Sleep(1000);
 
 	int freq = 25;
 	
@@ -253,7 +283,7 @@ int main() {
 	while (1) {
 		std::cout << "Running Server Loop" << std::endl;
 		
-		recv(ClientSock, recvbuf, sizeof(recvbuf), 0);
+		//recv(ClientRecv, recvbuf, sizeof(recvbuf), 0);
 		freq = string2int(recvbuf);
 		if (freq == 0) break;
 
