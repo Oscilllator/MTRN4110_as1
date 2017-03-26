@@ -16,10 +16,13 @@ ss = 10;
 
 %generate dot product:
 d = -p*n';
-z = ( n(1)*x - n(2)*y - d ) / n(3);
+if(n(3) ~= 0)
+    z = ( -n(1)*x - n(2)*y - d ) / n(3);
+else
+    z = ( -n(3)*x - n(1)*y - d) / n(2);%assumes n(2) ~= 0
+end
 
 plane = cat(3, x, y, z) + noise*randn([size(x), 3]);
-
 %%
 % NB: suggested to plot with:
 % hold on;
