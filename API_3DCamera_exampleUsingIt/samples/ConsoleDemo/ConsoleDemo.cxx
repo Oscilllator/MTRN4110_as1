@@ -227,8 +227,9 @@ void send_all(int sock, const void *vbuf, size_t size_buf)
 	{
 		if ((send_size = send(sock, buf, size_left, flags)) == -1)
 		{
-			std::cout << "send error: " << strerror(errno) << std::endl;
-			exit(1);
+			std::cout << "send error: " << size_left << strerror(errno) << std::endl;
+			//exit(1);
+			return;
 		}
 
 		if (send_size == 0)
@@ -274,12 +275,16 @@ void onNewDepthSample(DepthNode node, DepthNode::NewSampleReceivedData data)
 	//p3DPoints[1] = data.vertices[(cy - h / 4)*w + cx + w / 4];
 	//p3DPoints[2] = data.vertices[(cy + h / 4)*w + cx + w / 4];
 	//p3DPoints[3] = data.vertices[(cy + h / 4)*w + cx - w / 4];	
+	
+	static int BufferCounter = 0;
 
-	send_all(ClientSock, data.depthMap, 76800 * sizeof(int16_t));
-	std::cout << data.depthMap.size() << std::endl;
+	if (BufferCounter >= 5) {
+		BufferCounter = 0;
+		send_all(ClientSock, data.depthMap, 76800 * sizeof(int16_t));
+	}
 
-	std::cout << "I'm Here" << std::endl;
-	Sleep(1000/2);
+	BufferCounter++;
+
     Point2D p2DPoints[4];
     g_pProjHelper->get2DCoordinates ( p3DPoints, p2DPoints, 4, CAMERA_PLANE_COLOR);
    

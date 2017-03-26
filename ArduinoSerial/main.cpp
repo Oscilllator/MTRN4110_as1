@@ -102,6 +102,8 @@ int main() {
 		Sleep(10000);
 		return 1;
 	}
+	
+
 	std::cout << "Press any key to start the Server:" << std::endl;
 	if (_getch()) {
 		if (ListenOnPort(15000) != 0) { //CHOSE THE SERVER PORT HERE!
@@ -124,7 +126,7 @@ int main() {
 	while (1) {
 		
 		SR.ReadData(incomingData, 12);
-
+		std::cout <<"Pre-Shift:"<< incomingData << std::endl;
 		while (incomingData[0] != 'A') {
 			//char shift 
 			char holder = incomingData[0];
@@ -134,11 +136,10 @@ int main() {
 			incomingData[11] = holder;
 
 		}
-
-		SR.ReadData(incomingData, 12);
+		std::cout << "Pre-PostShift:" << incomingData << std::endl;
 		send(ClientSock, incomingData, 12, 0);
 		
-		std::cout << incomingData << std::endl;
+		
 		Sleep(1000);
 	}
 
