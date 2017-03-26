@@ -12,7 +12,7 @@ function plane = generateFakePlane(p, n, noise)
 %since a plane is technically of infinite size, only generate
 %a ss*ss square around the specified point
 ss = 10;
-[x, y] = ndgrid( (p(1) - ss/2):(p(1) + ss/2), (p(2) - ss/2):(p(3)) + ss/2 );
+[x, y] = ndgrid( (p(1) - ss/2):(p(1) + ss/2), (p(2) - ss/2):(p(2)) + ss/2 );
 
 %generate dot product:
 d = -p*n';
