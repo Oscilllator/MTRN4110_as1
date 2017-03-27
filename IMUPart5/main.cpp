@@ -13,6 +13,7 @@ SOCKET ss; //Server
 SOCKET ClientSock; //Client ID on Server Side
 
 #define DEFAULT_BUFLEN 512
+#define BUFFERSIZE 26
 
 char recvbuf[DEFAULT_BUFLEN];
 int recvbuflen = DEFAULT_BUFLEN;
@@ -118,20 +119,21 @@ int main() {
 		std::cout << "Bad Socket" << std::endl;
 	}
 	
-	char incomingData[26] = "000000000000000000000000";
-	while (1) {
-		SR.ReadData(incomingData, 25);
+	char incomingData[BUFFERSIZE] = "000000000000000000000000";
+	
 
+	while (1) {
+		SR.ReadData(incomingData, BUFFERSIZE-1);
 		while (incomingData[0] != 'A') {
 			//char shift 
 			char holder = incomingData[0];
-			for (int i = 0; i < 24; i++) {
+			for (int i = 0; i < BUFFERSIZE-2; i++) {
 				incomingData[i] = incomingData[i + 1];
 			}
-			incomingData[24] = holder;
+			incomingData[BUFFERSIZE-2] = holder;
 		}
 
-		send(ClientSock, incomingData, 25, 0);
+		send(ClientSock, incomingData, BUFFERSIZE-1, 0);
 
 		std::cout << incomingData << std::endl;
 		Sleep(1000);
