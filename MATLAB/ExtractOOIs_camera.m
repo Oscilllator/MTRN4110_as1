@@ -6,11 +6,10 @@ function r = ExtractOOIs(ranges,intensities)
     r.Sizes   = [];
     brightPts = find(intensities ~=0);
 
-
     % 2D points, expressed in Cartesian. From the sensor's perpective.
     angles = [0:360]'*0.5* pi/180;% associated angle for each range of scan
     X = cos(angles).*ranges;
-    Y = sin(angles).*ranges;    
+    Y = sin(angles).*ranges;   
     clusterEndPts = [1];%have to initialise
 
     %find all clusters of points:
@@ -23,7 +22,7 @@ function r = ExtractOOIs(ranges,intensities)
             if (X(i) - X(i+1))^2 + (Y(i) - Y(i+1))^2 > maxPoleDia^2
                 clusterEndPts = [clusterEndPts, i - 1, i + 1];
                 i = i + 1;
-            else 
+            else
                 clusterEndPts = [clusterEndPts, i - 1, i];
             end
 

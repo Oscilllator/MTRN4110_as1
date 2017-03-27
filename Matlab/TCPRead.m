@@ -49,8 +49,9 @@ while ((Timeout < 10000) || (get(t, 'BytesAvailable') > 0))
     end
 
     imageArray(imageArray<0) = 0;
-    OOI(OOI<0) = 0;
     set(Image, 'CData', imageArray/31999);
+    
+    ooiArray(ooiArray<0) = 0;
     set(OOI, 'CData', ooiArray);
     
     Timeout = Timeout + 1
