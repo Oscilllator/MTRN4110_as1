@@ -214,11 +214,9 @@ void onNewAudioSample(AudioNode node, AudioNode::NewSampleReceivedData data)
 void onNewColorSample(ColorNode node, ColorNode::NewSampleReceivedData data)
 {
     //printf("C#%u: %d\n",g_cFrames,data.colorMap.size());
-//	static int BufferCounter;
-//	if (BufferCounter >= 5) {
-//		BufferCounter = 0;
-//		send_all(ClientSock, data.colorMap, 76800 * sizeof(int8_t));
-//	}
+
+
+
     g_cFrames++;
 }
 
@@ -505,6 +503,11 @@ void onDeviceDisconnected(Context context, Context::DeviceRemovedData data)
 }
 
 /*----------------------------------------------------------------------------*/
+
+
+//data that will be sent:
+DataSent datasent;
+
 int main(int argc, char* argv[])
 {
 	g_context = Context::create("localhost");
@@ -515,8 +518,8 @@ int main(int argc, char* argv[])
     // Get the list of currently connected devices
     std::vector<Device> da = g_context.getDevices();
 
-	//data that will be sent:
-	DataSent datasent;
+
+
     // We are only interested in the first device
     if (da.size() >= 1)
     {
