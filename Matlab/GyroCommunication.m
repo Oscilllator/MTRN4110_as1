@@ -3,7 +3,7 @@
 t = tcpip('127.0.0.1', 15000); 
 
 % Set size of receiving buffer, if needed. 
-set(t, 'InputBufferSize', 25);  
+set(t, 'InputBufferSize', 25); 
 
 % Open connection to the server. 
 fopen(t); 
@@ -18,7 +18,7 @@ pause(1)
 h = animatedline('Color','r');
 g = animatedline('Color','g');
 k = animatedline('Color','b');
-axis([0,100,-1,360])
+axis([0,100,-1,257])
 tic
 % Receive lines of data from server 
 while (get(t, 'BytesAvailable') > 0) 
