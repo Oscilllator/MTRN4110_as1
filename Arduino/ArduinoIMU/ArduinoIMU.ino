@@ -35,6 +35,7 @@ void loop() {
   //Send Framing char
   Serial.print('A');
   //Send AccX
+  
   if(AccX>0) {
     Serial.print(NULL);
   }
@@ -44,8 +45,10 @@ void loop() {
   if (AccX<100) {
   Serial.print(NULL);
   }
+
   Serial.print(AccX);
   //Send AccY
+  
   if(AccY>0) {
     Serial.print(NULL);
   }
@@ -55,8 +58,10 @@ void loop() {
   if (AccY<100) {
   Serial.print(NULL);
   }
+  
   Serial.print(AccY);
   //Send AccZ
+  
   if(AccZ>0) {
     Serial.print(NULL);
   }
@@ -100,6 +105,7 @@ void loop() {
   Serial.print(NULL);
   }
   Serial.print(GyrZ);
+  
   delay(1000);
   
 }
