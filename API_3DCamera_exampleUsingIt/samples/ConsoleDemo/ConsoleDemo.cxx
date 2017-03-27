@@ -38,16 +38,15 @@
 
 #include <io.h>
 
-
-
-
 #define MY_MESSAGE_NOTIFICATION      1048 //Custom notification message
 HWND hwnd;
 SOCKET ss; //Server
 SOCKET ClientSock; //Client ID on Server Side
+SOCKET ClientSock2;
 
 #define DEFAULT_BUFLEN 512
-
+#define DEPTH_MAP_SIZE 320*240
+#define COLOUR_MAP_SIZE 320*240
 
 using namespace DepthSense;
 //using namespace std;
@@ -66,7 +65,11 @@ bool g_bDeviceFound = false;
 ProjectionHelper* g_pProjHelper = NULL;
 StereoCameraParameters g_scp;
 
-
+struct  DataSent
+{
+	int16_t depthMap[DEPTH_MAP_SIZE];
+	int8_t colourMap[COLOUR_MAP_SIZE];
+};
 
 void CloseConnection(SOCKET ks) {
 	if (ks) {
@@ -211,6 +214,11 @@ void onNewAudioSample(AudioNode node, AudioNode::NewSampleReceivedData data)
 void onNewColorSample(ColorNode node, ColorNode::NewSampleReceivedData data)
 {
     //printf("C#%u: %d\n",g_cFrames,data.colorMap.size());
+//	static int BufferCounter;
+//	if (BufferCounter >= 5) {
+//		BufferCounter = 0;
+//		send_all(ClientSock, data.colorMap, 76800 * sizeof(int8_t));
+//	}
     g_cFrames++;
 }
 
@@ -507,6 +515,8 @@ int main(int argc, char* argv[])
     // Get the list of currently connected devices
     std::vector<Device> da = g_context.getDevices();
 
+	//data that will be sent:
+	DataSent datasent;
     // We are only interested in the first device
     if (da.size() >= 1)
     {
