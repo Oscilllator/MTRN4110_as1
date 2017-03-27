@@ -280,12 +280,12 @@ void onNewDepthSample(DepthNode node, DepthNode::NewSampleReceivedData data)
 
 	if (BufferCounter >= 5) {
 		BufferCounter = 0;
-		//send_all(ClientSock, data.depthMap, 76800 * sizeof(int16_t));
-		send(ClientSock, (char*)&data.depthMap[38400], sizeof(uint16_t), 0);
-		std::cout << data.depthMap[38400] << std::endl;
+		send_all(ClientSock, data.depthMap, 76800 * sizeof(int16_t));
+		//send(ClientSock, (char*)&data.depthMap[38400], sizeof(uint16_t), 0);
+		//std::cout << data.depthMap[38400] << std::endl;
 	}
-	for (int i =110; i < 210; i++)
-	std::cout << data.depthMap[i + 240 * 60] << " size: "<< data.depthMap.size() << sizeof(int16_t) << std::endl;
+	//for (int i =110; i < 210; i++)
+	//std::cout << data.depthMap[i + 240 * 60] << " size: "<< data.depthMap.size() << sizeof(int16_t) << std::endl;
 	
 	BufferCounter++;
 
